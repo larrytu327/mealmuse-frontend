@@ -36,3 +36,24 @@
     transform: rotate(360deg);
   }
 }
+
+.restaurants-list{
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 60px;
+}
+
+.spinner {
+width: 24px;
+animation: loading infinite 3s linear;
+}
+
+@keyframes loading{
+from{
+  transform: rotateZ(0deg);
+}
+to{
+  transform: rotateZ(360deg);
+}
+}
