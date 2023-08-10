@@ -25,9 +25,10 @@ const Restaurants = (props) =>{
         return restaurants?.map((restaurant) => {
           return (
             <div key={restaurant._id}>
-              <h1>{restaurant.name}</h1>
-              <h3>{restaurant.type}</h3>
-              <h3>{restaurant.city}</h3>
+                <p className='h3'>{restaurant.name}</p>
+                <img src={restaurant.image_url} className="img-fluid fixed-size-image rounded shadow mx-auto d-block" alt={restaurant.name}></img>
+                <p className='h4'>{restaurant.categories[0].title}</p>
+                <p className='h4'>{restaurant.rating} ⭐ </p>
             </div>
           );
         });
