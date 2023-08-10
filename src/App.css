@@ -37,12 +37,12 @@
   }
 }
 
-.restaurants-list{
+/* .restaurants-list{
   margin-top: 30px;
   display: grid;
   grid-template-columns: repeat(3,1fr);
   gap: 60px;
-}
+} */
 
 .spinner {
 width: 24px;

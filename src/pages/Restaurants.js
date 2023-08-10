@@ -22,17 +22,21 @@ const Restaurants = (props) =>{
     console.log(`There are ${restaurants.length} restaurants available to render`)
 
     const loaded = () => {
-        return restaurants?.map((restaurant) => {
-          return (
-            <div key={restaurant._id}>
-                <p className='h3'>{restaurant.name}</p>
-                <img src={restaurant.image_url} className="img-fluid fixed-size-image rounded shadow mx-auto d-block" alt={restaurant.name}></img>
-                <p className='h4'>{restaurant.categories[0].title}</p>
-                <p className='h4'>{restaurant.rating} ⭐ </p>
+        return (
+            <div className='container mt-4'>
+                <div className="row">
+                    {restaurants.map((restaurant) => (
+                        <div className='col-md-4 mb-4' key={restaurant._id}>
+                            <p className='h3'>{restaurant.name}</p>
+                            <img src={restaurant.image_url} className="img-fluid fixed-size-image rounded shadow mx-auto d-block" alt={restaurant.name}></img>
+                            <p className='h4'>{restaurant.categories[0].title}</p>
+                            <p className='h4'>{restaurant.rating} ⭐ </p>
+                        </div>
+                    ))}
+                </div>
             </div>
-          );
-        });
-      };
+        );
+    };
     
       const loading = () => (
         <section className="restaurants-list">
@@ -49,7 +53,9 @@ const Restaurants = (props) =>{
       );
     
       return (
-        <section className="restaurants-list">{restaurants && restaurants.length ? loaded() : loading()}</section>
+        <div>
+            {restaurants && restaurants.length ? loaded() : loading()}
+        </div>
       );
 }
 
