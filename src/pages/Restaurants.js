@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom';
 
 const Restaurants = (props) =>{
 
@@ -14,7 +15,6 @@ const Restaurants = (props) =>{
         }catch(err){
             console.log(err)
         }
-
     }
 
     useEffect(()=>{getRestaurants()}, [])
