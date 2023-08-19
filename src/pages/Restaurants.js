@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 
-const Restaurants = (props) =>{
+const Restaurants = ({isLoggedIn}) =>{
 
     const [restaurants, setRestaurants] = useState([])
 
@@ -20,6 +20,7 @@ const Restaurants = (props) =>{
     useEffect(()=>{getRestaurants()}, [])
 
     console.log(`There are ${restaurants.length} restaurants available to render`)
+    console.log(`isLoggedIn: ${isLoggedIn}`)
 
     const loaded = () => {
         return (

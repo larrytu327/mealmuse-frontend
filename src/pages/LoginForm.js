@@ -24,6 +24,10 @@ const LoginForm = ({registerUser}) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
 
+  const handleCreateAccountClick = () => {
+    navigate("/register");
+  };
+
   return (
     <>
       <h1>Login</h1>
@@ -48,6 +52,9 @@ const LoginForm = ({registerUser}) => {
         <br />
         <input type="submit" value="Sign Up" />
       </form>
+      <br />
+      <br />
+      <button className='create-account-button' onClick={handleCreateAccountClick}>Create New Account</button>
     </>
   );
 };

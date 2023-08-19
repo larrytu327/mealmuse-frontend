@@ -7,7 +7,7 @@ import { clearUserToken, setUserToken } from "./utils/authToken"
 
 function App() {
   const [currentUser, setCurrentUser] = useState({})
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState({})
 
   const registerUser = async (data) => {
     try {
@@ -30,6 +30,7 @@ function App() {
       setCurrentUser(parsedUser.currentUser);
       //adds a boolean cast of the responses isLoggedIn prop
       setIsAuthenticated(parsedUser.loggedIn);
+      console.log({currentUser})
 
       return parsedUser
     } catch (err) {
@@ -66,9 +67,15 @@ function App() {
     }
   }
 
+  const logoutUser = () => {
+    clearUserToken();
+    setCurrentUser({});
+    setIsAuthenticated(false);
+  };
+
   return (
     <div className="App">
-      <Header user={currentUser} isLoggedIn={isAuthenticated}/>
+      <Header user={currentUser} isLoggedIn={isAuthenticated} logout={logoutUser}/>
       <Main isLoggedIn={isAuthenticated} signup={registerUser} login={loginUser} user={currentUser} />
       <Footer user={currentUser} />
     </div>
