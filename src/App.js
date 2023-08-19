@@ -7,7 +7,7 @@ import { clearUserToken, setUserToken } from "./utils/authToken"
 
 function App() {
   const [currentUser, setCurrentUser] = useState({})
-  const [isAuthenticated, setIsAuthenticated] = useState({})
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
 
   const registerUser = async (data) => {
     try {
@@ -23,15 +23,23 @@ function App() {
 
       const parsedUser = await newUser.json()
       console.log(parsedUser);
+      console.log(`parsedUser.token: ${parsedUser.token}`)
+      console.log(`parsedUser.currentUser: ${parsedUser.user.first_name}`)
+      console.log(`BEFORE: ${currentUser.first_name}`)
+      console.log(`parsedUser.loggedIn: ${parsedUser.isLoggedIn}`)
+      console.log(`BEFORE: ${isAuthenticated}`)
 
       //sets local storage
       setUserToken(parsedUser.token);
       //put the returned user object in state
-      setCurrentUser(parsedUser.currentUser);
+      setCurrentUser(parsedUser.user);
       //adds a boolean cast of the responses isLoggedIn prop
-      setIsAuthenticated(parsedUser.loggedIn);
-      console.log({currentUser})
-
+      setIsAuthenticated(parsedUser.isLoggedIn);
+      console.log(`parsedUser.token: ${parsedUser.token}`)
+      console.log(`parsedUser.currentUser: ${parsedUser.user.first_name}`)
+      console.log(`AFTER: ${currentUser.first_name}`)
+      console.log(`parsedUser.loggedIn: ${parsedUser.isLoggedIn}`)
+      console.log(`AFTER: ${isAuthenticated}`)
       return parsedUser
     } catch (err) {
       console.log(err)
@@ -62,6 +70,7 @@ function App() {
 
       return user;
     } catch (err) {
+      console.log(err);
       clearUserToken();
       setIsAuthenticated(false);
     }

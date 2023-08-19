@@ -4,9 +4,15 @@ import { useNavigate } from 'react-router';
 const Header = ({ user, isLoggedIn, logout }) => {
   const navigate = useNavigate();
 
+  console.log("header")
+  console.log(isLoggedIn)
+  console.log(user)
+
   const handleLogout = () => {
     logout();
-    navigate('/restaurants');
+    console.log(isLoggedIn)
+    console.log(user)
+    navigate('/');
   };
 
   return (
