@@ -3,8 +3,7 @@ import { useState } from "react";
 import Header from "./components/Header";
 import Main from "./components/Main";
 import Footer from "./components/Footer";
-import { setCurrentUser, clearUserToken, setUserToken } from "./utils/authToken"
-import { parse } from "@fortawesome/fontawesome-svg-core";
+import { clearUserToken, setUserToken } from "./utils/authToken"
 
 function App() {
   const [currentUser, setCurrentUser] = useState({})
@@ -20,7 +19,7 @@ function App() {
         },
       }
 
-      const newUser = await fetch("http://mealmuse-backend.onrender.com/auth/register", configs)
+      const newUser = await fetch("http://localhost:4000/auth/register", configs)
 
       const parsedUser = await newUser.json()
       console.log(parsedUser);
@@ -50,7 +49,7 @@ function App() {
         },
       }
       const response = await fetch(
-        "http://mealmuse-backend.onrender.com/auth/login",
+        "http://localhost:4000/auth/login",
         configs
       )
       const user = await response.json()
@@ -69,7 +68,7 @@ function App() {
 
   return (
     <div className="App">
-      <Header user={currentUser} />
+      <Header user={currentUser} isLoggedIn={isAuthenticated}/>
       <Main isLoggedIn={isAuthenticated} signup={registerUser} login={loginUser} user={currentUser} />
       <Footer user={currentUser} />
     </div>

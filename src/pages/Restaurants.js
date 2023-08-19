@@ -5,7 +5,7 @@ const Restaurants = (props) =>{
 
     const [restaurants, setRestaurants] = useState([])
 
-		const BASE_URL = "http://mealmuse-backend.onrender.com/restaurants/";
+		const BASE_URL = "http://localhost:4000/restaurants/";
 
     const getRestaurants = async () => {
         try {

@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom"
 function RestaurantShow() {
     const [restaurant, setRestaurant] = useState(null);
     const { id } = useParams();
-    const URL = `http://mealmuse-backend.onrender.com/restaurants/${id}`
+    const URL = `http://localhost:4000/restaurants/${id}`
 
     async function getRestaurant() {
         try {
