@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 
-function RestaurantShow() {
+function RestaurantShow({isLoggedIn}) {
     const [restaurant, setRestaurant] = useState(null);
     const { id } = useParams();
     const URL = `http://localhost:4000/restaurants/${id}`

@@ -1,5 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
+
 
 const Header = ({ user, isLoggedIn, logout }) => {
   const navigate = useNavigate();
@@ -16,25 +18,25 @@ const Header = ({ user, isLoggedIn, logout }) => {
   };
 
   return (
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="/">Meal Muse</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
+    <nav className="navbar navbar-expand-lg bg-body-tertiary">
+      <div className="container-fluid">
+        <Link className="navbar-brand" to="/">Meal Muse</Link>
+        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="/">Home</a>
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav">
+            <li className="nav-item">
+              <Link className="nav-link" to="/">Home</Link>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="/restaurants">Restaurants</a>
+            <li className="nav-item">
+              <Link className="nav-link" to="/restaurants">Restaurants</Link>
             </li>
             <li className='nav-item'>
               {isLoggedIn ? (
                 <button className="nav-button" onClick={handleLogout}>Logout</button>
               ) : (
-                <a className='nav-link' href='/login'>Login</a>
+                <Link className='nav-link' to='/login'>Login</Link>
               )}
             </li>
           </ul>
@@ -45,4 +47,3 @@ const Header = ({ user, isLoggedIn, logout }) => {
 }
   
   export default Header
-  
