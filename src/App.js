@@ -62,11 +62,13 @@ function App() {
         configs
       )
       const user = await response.json()
+      console.log("this shows the user")
       console.log(user)
+      console.log(user.user.first_name)
 
       setUserToken(user.token)
       setCurrentUser(user.currentUser)
-      setIsAuthenticated(user.loggedIn)
+      setIsAuthenticated(user.isLoggedIn)
 
       return user;
     } catch (err) {

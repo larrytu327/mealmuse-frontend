@@ -1,14 +1,14 @@
 import {useNavigate} from 'react-router-dom'
 import {useState} from 'react'
 
-const LoginForm = ({registerUser}) => {
+const LoginForm = ({login}) => {
   const initialState = { username: "", password: ""}
   const [input, setInput] = useState(initialState)
 	const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const createdUserToken = await registerUser(input)
+    const createdUserToken = await login(input)
 
     if (createdUserToken) {
       console.log("user is created")
@@ -50,7 +50,7 @@ const LoginForm = ({registerUser}) => {
         />
         <br />
         <br />
-        <input type="submit" value="Sign Up" />
+        <input type="submit" value="Log In" />
       </form>
       <br />
       <br />

@@ -12,7 +12,7 @@ const Main = ({ isLoggedIn, signup, login, user}) => {
           <Route index element={<Restaurants isLoggedIn={isLoggedIn}/>} />
           <Route path=":id" element={<RestaurantShow isLoggedIn={isLoggedIn}/>} />
         </Route>
-        <Route path="/login" element={<LoginForm />} />
+        <Route path="/login" element={<LoginForm login={login} />} />
         <Route path="/register" element={<RegisterForm signup={signup} />} />
       </Routes>
     </main>
