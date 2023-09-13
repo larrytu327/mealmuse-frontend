@@ -17,6 +17,10 @@ const Restaurants = ({isLoggedIn}) =>{
         }
     }
 
+    const addToMyRestaurants = () => {
+      
+    };
+    
     useEffect(()=>{getRestaurants()}, [])
 
     console.log(`There are ${restaurants.length} restaurants available to render`)
@@ -34,6 +38,7 @@ const Restaurants = ({isLoggedIn}) =>{
                             </Link>
                             <p className='h4'>{restaurant.categories[0].title}</p>
                             <p className='h4'>{restaurant.rating} ⭐ </p>
+                            <button onClick={addToMyRestaurants}>Create New Account</button>
                         </div>
                     ))}
                 </div>
