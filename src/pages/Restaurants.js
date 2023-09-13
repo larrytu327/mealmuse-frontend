@@ -38,7 +38,9 @@ const Restaurants = ({isLoggedIn}) =>{
                             </Link>
                             <p className='h4'>{restaurant.categories[0].title}</p>
                             <p className='h4'>{restaurant.rating} ⭐ </p>
-                            <button onClick={addToMyRestaurants}>Create New Account</button>
+                            { isLoggedIn ? 
+                              (<button onClick=          {addToMyRestaurants}>Add to My Restaurants</button>) : (<></>)
+                            }
                         </div>
                     ))}
                 </div>
