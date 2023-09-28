@@ -16,6 +16,10 @@ function RestaurantShow({isLoggedIn}) {
         }
     }
 
+    const addToMyRestaurants = () => {
+      
+    };
+
     console.log(`Current Restaurant: ${JSON.stringify(restaurant)}`)
 
     useEffect(()=>{
@@ -39,6 +43,9 @@ function RestaurantShow({isLoggedIn}) {
                         )
                     }
                 })}</p>
+                { isLoggedIn ? 
+                    (<button onClick={addToMyRestaurants}>Add to My Restaurants</button>) : (<></>)
+                }
             </>
         )
     }

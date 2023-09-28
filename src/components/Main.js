@@ -4,13 +4,13 @@ import RestaurantShow from "../pages/RestaurantShow";
 import LoginForm from "../pages/LoginForm";
 import RegisterForm from "../pages/RegisterForm";
 
-const Main = ({ isLoggedIn, signup, login, user}) => {
+const Main = ({ isLoggedIn, signup, login, user, token}) => {
   return (
     <main>
       <Routes>
         <Route path="/restaurants/*">
-          <Route index element={<Restaurants isLoggedIn={isLoggedIn}/>} />
-          <Route path=":id" element={<RestaurantShow isLoggedIn={isLoggedIn}/>} />
+          <Route index element={<Restaurants isLoggedIn={isLoggedIn} user={user} token={token}/>} />
+          <Route path=":id" element={<RestaurantShow isLoggedIn={isLoggedIn} user={user} token={token}/>} />
         </Route>
         <Route path="/login" element={<LoginForm login={login} />} />
         <Route path="/register" element={<RegisterForm signup={signup} />} />

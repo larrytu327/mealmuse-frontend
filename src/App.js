@@ -3,11 +3,12 @@ import { useState } from "react";
 import Header from "./components/Header";
 import Main from "./components/Main";
 import Footer from "./components/Footer";
-import { clearUserToken, setUserToken } from "./utils/authToken"
+import { clearUserToken, setUserToken, getUserToken } from "./utils/authToken"
 
 function App() {
   const [currentUser, setCurrentUser] = useState({})
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const userToken = getUserToken();
 
   const registerUser = async (data) => {
     try {
@@ -87,7 +88,7 @@ function App() {
   return (
     <div className="App">
       <Header user={currentUser} isLoggedIn={isAuthenticated} logout={logoutUser}/>
-      <Main isLoggedIn={isAuthenticated} signup={registerUser} login={loginUser} user={currentUser} />
+      <Main isLoggedIn={isAuthenticated} signup={registerUser} login={loginUser} user={currentUser} token={userToken}/>
       <Footer user={currentUser} />
     </div>
   );
