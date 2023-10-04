@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 const Restaurants = ({isLoggedIn, token}) =>{
 
     const [restaurants, setRestaurants] = useState([])
+    const [user, setUser] = useState(null);
 
 		const BASE_URL = "http://localhost:4000/restaurants/";
 
@@ -11,13 +12,13 @@ const Restaurants = ({isLoggedIn, token}) =>{
         try {
             const response = await fetch(BASE_URL)
             const allRestaurants = await response.json()
-            setRestaurants(allRestaurants)
+            setRestaurants(allRestaurants);
         }catch(err){
             console.log(err)
         }
     }
 
-    const addToMyRestaurants = async (restaurantId) => {
+    const addToMyRestaurants = async (restaurant) => {
       try {
         const response = await fetch(`http://localhost:4000/auth/add-to-favorites`, {
           method: 'POST',
@@ -25,10 +26,10 @@ const Restaurants = ({isLoggedIn, token}) =>{
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
           },
-          body: JSON.stringify({ restaurantId }),
+          body: JSON.stringify({ restaurant }),
         });
         if (response.ok) {
-
+          console.log(`Added ${restaurant.name} to fav_restaurants`)
         } else {
           console.error('Failed to add restaurant to favorites');
         }
@@ -37,32 +38,67 @@ const Restaurants = ({isLoggedIn, token}) =>{
       }
     };
     
-    useEffect(()=>{getRestaurants()}, [])
+    useEffect(() => {
+      const fetchUser = async () => {
+        try {
+          const response = await fetch('http://localhost:4000/auth/get-user', {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+            },
+          });
+          if (response.ok) {
+            const userData = await response.json();
+            setUser(userData);
+          } else {
+            console.error('Failed to fetch user data');
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      getRestaurants();
+      fetchUser();
+    }, [token]);
 
     console.log(`There are ${restaurants.length} restaurants available to render`)
     console.log(`isLoggedIn: ${isLoggedIn}`)
 
     const loaded = () => {
-        return (
-            <div className='container mt-4'>
-                <div className="row">
-                    {restaurants.map((restaurant) => (
-                        <div className='col-md-4 mb-4' key={restaurant._id}>
-                            <Link to={`/restaurants/${restaurant._id}`}>
-                                <p className='h3'>{restaurant.name}</p>
-                                <img src={restaurant.image_url} className="img-fluid fixed-size-image rounded shadow mx-auto d-block" alt={restaurant.name}></img>
-                            </Link>
-                            <p className='h4'>{restaurant.categories[0].title}</p>
-                            <p className='h4'>{restaurant.rating} ⭐ </p>
-                            { isLoggedIn ? 
-                              (<button onClick={() =>  addToMyRestaurants(restaurant._id)}>Add to My Restaurants</button>) : (<></>)
-                            }
-                        </div>
-                    ))}
+      return (
+        <div className='container mt-4'>
+          <div className="row">
+            {restaurants.map((restaurant) => {
+              const isFavorite = isLoggedIn && user && user.fav_restaurants && user.fav_restaurants.includes(restaurant._id);
+    
+              return (
+                <div className='col-md-4 mb-4' key={restaurant._id}>
+                  <Link to={`/restaurants/${restaurant._id}`}>
+                    <p className='h3'>{restaurant.name}</p>
+                    <img src={restaurant.image_url} className="img-fluid fixed-size-image rounded shadow mx-auto d-block" alt={restaurant.name}></img>
+                  </Link>
+                  <p className='h4'>{restaurant.categories[0].title}</p>
+                  <p className='h4'>{restaurant.rating} ⭐ </p>
+                  {isLoggedIn ? (
+                    isFavorite ? (
+                      <button onClick={() => addToMyRestaurants(restaurant)}>
+                        Remove from My Restaurants
+                      </button>
+                    ) : (
+                      <button onClick={() => addToMyRestaurants(restaurant)}>
+                        Add to My Restaurants
+                      </button>
+                    )
+                  ) : (
+                    <></>
+                  )}
                 </div>
-            </div>
-        );
+              );
+            })}
+          </div>
+        </div>
+      );
     };
+    
     
       const loading = () => (
         <section className="restaurants-list">
