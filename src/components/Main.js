@@ -3,7 +3,7 @@ import Restaurants from "../pages/Restaurants";
 import RestaurantShow from "../pages/RestaurantShow";
 import LoginForm from "../pages/LoginForm";
 import RegisterForm from "../pages/RegisterForm";
-import MyRestaurants from "../pages/myRestaurants";
+import MyRestaurants from "../pages/MyRestaurants";
 
 const Main = ({ isLoggedIn, signup, login, user, token}) => {
   return (

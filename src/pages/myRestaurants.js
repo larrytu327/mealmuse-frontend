@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 
 const MyRestaurants = ({isLoggedIn, token}) => {
-    const [myRestaurants, setMyRestaurants] = useState([]);
+    // const [myRestaurants, setMyRestaurants] = useState([]);
     const [user, setUser] = useState(null);
     useEffect(() => {
-        const getMyRestaurants = async () => {
+        const fetchUser = async () => {
             try {
                 const response = await fetch("http://localhost:4000/auth/get-user", {
                     headers: {
@@ -13,8 +13,9 @@ const MyRestaurants = ({isLoggedIn, token}) => {
                     },
                 });
                 if (response.ok) {
-                    const allMyRestaurants = await response.json();
-                    setMyRestaurants(allMyRestaurants);
+                    const userData = await response.json();
+                    console.log(userData)
+                    setUser(userData);
                 } else {
                     console.error('Failed to fetch user data');
                 }
@@ -22,42 +23,43 @@ const MyRestaurants = ({isLoggedIn, token}) => {
                 console.log(err);
             }
         }
-        getMyRestaurants();
+        fetchUser();
     }, [token]);
 
     const loaded = () => {
         return (
-          <div className='container mt-4'>
-            <div className="row">
-              {myRestaurants.map((restaurant) => {
-                const isFavorite = isLoggedIn && user && user.fav_restaurants && user.fav_restaurants.includes(restaurant._id);
-      
-                return (
-                  <div className='col-md-4 mb-4' key={restaurant._id}>
-                    <Link to={`/restaurants/${restaurant._id}`}>
-                      <p className='h3'>{restaurant.name}</p>
-                      <img src={restaurant.image_url} className="img-fluid fixed-size-image rounded shadow mx-auto d-block" alt={restaurant.name}></img>
-                    </Link>
-                    <p className='h4'>{restaurant.categories[0].title}</p>
-                    <p className='h4'>{restaurant.rating} ⭐ </p>
-                    {isLoggedIn ? (
-                      isFavorite ? (
-                        <button onClick={() => addToMyRestaurants(restaurant)}>
-                          Remove from My Restaurants
-                        </button>
-                      ) : (
-                        <button onClick={() => addToMyRestaurants(restaurant)}>
-                          Add to My Restaurants
-                        </button>
-                      )
-                    ) : (
-                      <></>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+            <>
+                <h1>{user.user.last_name}</h1>  
+                <div className='container mt-4'>
+                    <div className="row">
+                    {user.user.fav_restaurants.map((restaurant) => {
+                        return (
+                        <div className='col-md-4 mb-4' key={restaurant._id}>
+                            <Link to={`/restaurants/${restaurant._id}`}>
+                            <p className='h3'>{restaurant.name}</p>
+                            <img src={restaurant.image_url} className="img-fluid fixed-size-image rounded shadow mx-auto d-block" alt={restaurant.name}></img>
+                            </Link>
+                            <p className='h4'>{restaurant.categories[0].title}</p>
+                            <p className='h4'>{restaurant.rating} ⭐ </p>
+                            {/* {isLoggedIn ? (
+                            isFavorite ? (
+                                <button>
+                                Remove from My Restaurants
+                                </button>
+                            ) : (
+                                <button>
+                                Add to My Restaurants
+                                </button>
+                            )
+                            ) : (
+                            <></>
+                            )} */}
+                        </div>
+                        );
+                    })}
+                    </div>
+                </div>
+            </>
         );
       };
       
@@ -78,7 +80,7 @@ const MyRestaurants = ({isLoggedIn, token}) => {
       
         return (
           <div>
-              {myRestaurants && myRestaurants.length ? loaded() : loading()}
+              {user ? loaded() : loading()}
           </div>
         );
 }
