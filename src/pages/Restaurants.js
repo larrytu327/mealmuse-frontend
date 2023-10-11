@@ -48,6 +48,7 @@ const Restaurants = ({isLoggedIn, token}) =>{
           });
           if (response.ok) {
             const userData = await response.json();
+            console.log(userData)
             setUser(userData);
           } else {
             console.error('Failed to fetch user data');
@@ -62,14 +63,15 @@ const Restaurants = ({isLoggedIn, token}) =>{
 
     console.log(`There are ${restaurants.length} restaurants available to render`)
     console.log(`isLoggedIn: ${isLoggedIn}`)
+    // console.log(`user is: ${user.user.first_name}`);
 
     const loaded = () => {
       return (
         <div className='container mt-4'>
           <div className="row">
             {restaurants.map((restaurant) => {
-              const isFavorite = isLoggedIn && user && user.fav_restaurants && user.fav_restaurants.includes(restaurant._id);
-    
+              const isFavorite = user && user.fav_restaurants.includes(restaurant._id);
+              // console.log(user.fav_restaurants.includes(restaurants._id))
               return (
                 <div className='col-md-4 mb-4' key={restaurant._id}>
                   <Link to={`/restaurants/${restaurant._id}`}>
@@ -78,18 +80,14 @@ const Restaurants = ({isLoggedIn, token}) =>{
                   </Link>
                   <p className='h4'>{restaurant.categories[0].title}</p>
                   <p className='h4'>{restaurant.rating} ⭐ </p>
-                  {isLoggedIn ? (
-                    isFavorite ? (
-                      <button onClick={() => addToMyRestaurants(restaurant)}>
-                        Remove from My Restaurants
-                      </button>
-                    ) : (
-                      <button onClick={() => addToMyRestaurants(restaurant)}>
-                        Add to My Restaurants
-                      </button>
-                    )
-                  ) : (
-                    <></>
+                  {isLoggedIn && (
+                    <button onClick={() => {
+                      if (isFavorite) {
+                        addToMyRestaurants(restaurant);
+                      } else {
+                        addToMyRestaurants(restaurant);
+                      }
+                    }}>{isFavorite ? "Remove from My Favorite Restaurants" : "Add to My Favorite Restaurants"}</button>
                   )}
                 </div>
               );

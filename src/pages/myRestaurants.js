@@ -29,10 +29,10 @@ const MyRestaurants = ({isLoggedIn, token}) => {
     const loaded = () => {
         return (
             <>
-                <h1>{user.user.last_name}</h1>  
+                <h1>{user.first_name} {user.last_name}'s Favorite Restaurants</h1>  
                 <div className='container mt-4'>
                     <div className="row">
-                    {user.user.fav_restaurants.map((restaurant) => {
+                    {user.fav_restaurants.map((restaurant) => {
                         return (
                         <div className='col-md-4 mb-4' key={restaurant._id}>
                             <Link to={`/restaurants/${restaurant._id}`}>
@@ -41,19 +41,7 @@ const MyRestaurants = ({isLoggedIn, token}) => {
                             </Link>
                             <p className='h4'>{restaurant.categories[0].title}</p>
                             <p className='h4'>{restaurant.rating} ⭐ </p>
-                            {/* {isLoggedIn ? (
-                            isFavorite ? (
-                                <button>
-                                Remove from My Restaurants
-                                </button>
-                            ) : (
-                                <button>
-                                Add to My Restaurants
-                                </button>
-                            )
-                            ) : (
-                            <></>
-                            )} */}
+                            <button>Remove</button>
                         </div>
                         );
                     })}
@@ -67,7 +55,7 @@ const MyRestaurants = ({isLoggedIn, token}) => {
         const loading = () => (
           <section className="restaurants-list">
             <h1>
-              No Favorite Restaurants
+              No User Logged In
               <span>
                 <img
                   className="spinner"

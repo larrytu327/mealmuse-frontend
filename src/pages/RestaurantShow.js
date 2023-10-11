@@ -44,7 +44,7 @@ function RestaurantShow({isLoggedIn}) {
                     }
                 })}</p>
                 { isLoggedIn ? 
-                    (<button onClick={addToMyRestaurants(restaurant)}>Add to My Restaurants</button>) : (<></>)
+                    (<button onClick={() => addToMyRestaurants(restaurant)}>Add to My Restaurants</button>) : (<></>)
                 }
             </>
         )
