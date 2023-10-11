@@ -3,6 +3,7 @@ import Restaurants from "../pages/Restaurants";
 import RestaurantShow from "../pages/RestaurantShow";
 import LoginForm from "../pages/LoginForm";
 import RegisterForm from "../pages/RegisterForm";
+import MyRestaurants from "../pages/myRestaurants";
 
 const Main = ({ isLoggedIn, signup, login, user, token}) => {
   return (
@@ -14,6 +15,7 @@ const Main = ({ isLoggedIn, signup, login, user, token}) => {
         </Route>
         <Route path="/login" element={<LoginForm login={login} />} />
         <Route path="/register" element={<RegisterForm signup={signup} />} />
+        <Route path="/myrestaurants" element={<MyRestaurants isLoggedIn={isLoggedIn} token={token} user={user} />} />
       </Routes>
     </main>
   );

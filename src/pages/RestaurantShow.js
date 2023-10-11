@@ -16,9 +16,9 @@ function RestaurantShow({isLoggedIn}) {
         }
     }
 
-    const addToMyRestaurants = () => {
-      
-    };
+    function addToMyRestaurants(restaurant) {
+        
+    }
 
     console.log(`Current Restaurant: ${JSON.stringify(restaurant)}`)
 
@@ -44,7 +44,7 @@ function RestaurantShow({isLoggedIn}) {
                     }
                 })}</p>
                 { isLoggedIn ? 
-                    (<button onClick={addToMyRestaurants}>Add to My Restaurants</button>) : (<></>)
+                    (<button onClick={addToMyRestaurants(restaurant)}>Add to My Restaurants</button>) : (<></>)
                 }
             </>
         )
