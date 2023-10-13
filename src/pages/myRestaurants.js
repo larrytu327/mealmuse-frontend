@@ -26,6 +26,28 @@ const MyRestaurants = ({isLoggedIn, token}) => {
         fetchUser();
     }, [token]);
 
+    const removeRestaurant = async (restaurant) => {
+        try {
+          const response = await fetch(`http://localhost:4000/auth/add-to-favorites`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({ restaurant }),
+          });
+          if (response.ok) {
+            const updatedUser = await response.json();
+            setUser(updatedUser.user);
+            console.log(`Removed ${restaurant.name} from fav_restaurants`)
+          } else {
+            console.error('Failed to remove restaurant from favorites');
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      };
+
     const loaded = () => {
         return (
             <>
@@ -41,7 +63,7 @@ const MyRestaurants = ({isLoggedIn, token}) => {
                             </Link>
                             <p className='h4'>{restaurant.categories[0].title}</p>
                             <p className='h4'>{restaurant.rating} ⭐ </p>
-                            <button>Remove</button>
+                            <button onClick={() => { removeRestaurant(restaurant) }}>Remove</button>
                         </div>
                         );
                     })}

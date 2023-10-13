@@ -70,7 +70,7 @@ const Restaurants = ({isLoggedIn, token}) =>{
         <div className='container mt-4'>
           <div className="row">
             {restaurants.map((restaurant) => {
-              const isFavorite = user && user.fav_restaurants.includes(restaurant._id);
+              const isFavorite = user && user.fav_restaurants.find(favRestaurant => favRestaurant._id === restaurant._id) !== undefined;
               // console.log(user.fav_restaurants.includes(restaurants._id))
               return (
                 <div className='col-md-4 mb-4' key={restaurant._id}>
