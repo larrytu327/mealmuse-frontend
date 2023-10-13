@@ -29,6 +29,8 @@ const Restaurants = ({isLoggedIn, token}) =>{
           body: JSON.stringify({ restaurant }),
         });
         if (response.ok) {
+          const updatedUser = await response.json();
+          setUser(updatedUser.user);
           console.log(`Added ${restaurant.name} to fav_restaurants`)
         } else {
           console.error('Failed to add restaurant to favorites');
@@ -71,7 +73,6 @@ const Restaurants = ({isLoggedIn, token}) =>{
           <div className="row">
             {restaurants.map((restaurant) => {
               const isFavorite = user && user.fav_restaurants.find(favRestaurant => favRestaurant._id === restaurant._id) !== undefined;
-              // console.log(user.fav_restaurants.includes(restaurants._id))
               return (
                 <div className='col-md-4 mb-4' key={restaurant._id}>
                   <Link to={`/restaurants/${restaurant._id}`}>
@@ -81,13 +82,7 @@ const Restaurants = ({isLoggedIn, token}) =>{
                   <p className='h4'>{restaurant.categories[0].title}</p>
                   <p className='h4'>{restaurant.rating} ⭐ </p>
                   {isLoggedIn && (
-                    <button onClick={() => {
-                      if (isFavorite) {
-                        addToMyRestaurants(restaurant);
-                      } else {
-                        addToMyRestaurants(restaurant);
-                      }
-                    }}>{isFavorite ? "Remove from My Favorite Restaurants" : "Add to My Favorite Restaurants"}</button>
+                    <button onClick={() => { addToMyRestaurants(restaurant)}}>{isFavorite ? "Remove from My Favorite Restaurants" : "Add to My Favorite Restaurants"}</button>
                   )}
                 </div>
               );

@@ -32,18 +32,20 @@ const Header = ({ user, isLoggedIn, logout }) => {
             <li className="nav-item">
               <Link className="nav-link" to="/restaurants">Restaurants</Link>
             </li>
-            <li className='nav-item'>
+            <>
               {isLoggedIn ? (
                 <>
                   <li className="nav-item">
                     <Link className="nav-link" to="/myrestaurants">My Favorite Restaurants</Link>
                   </li>
-                  <button className="nav-button" onClick={handleLogout}>Logout</button>
+                  <li className="nav-item">
+                    <Link className="nav-link" onClick={handleLogout}>Logout</Link>
+                  </li>
                 </>
               ) : (
                 <Link className='nav-link' to='/login'>Login</Link>
               )}
-            </li>
+            </>
           </ul>
         </div>
       </div>
