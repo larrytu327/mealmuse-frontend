@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 const MyRestaurants = ({isLoggedIn, token}) => {
     // const [myRestaurants, setMyRestaurants] = useState([]);
     const [user, setUser] = useState(null);
+    const [removedRestuarants, setRemovedRestaurants] = useState([]); 
+
     useEffect(() => {
         const fetchUser = async () => {
             try {
@@ -40,6 +42,11 @@ const MyRestaurants = ({isLoggedIn, token}) => {
             const updatedUser = await response.json();
             setUser(updatedUser.user);
             console.log(`Removed ${restaurant.name} from fav_restaurants`)
+            if (removedRestuarants.some(removed => removed._id === restaurant._id)) {
+                setRemovedRestaurants(removedRestuarants.filter(removed => removed._id !== restaurant._id));
+            } else {
+                setRemovedRestaurants([...removedRestuarants, restaurant]);
+            }
           } else {
             console.error('Failed to remove restaurant from favorites');
           }
@@ -63,7 +70,7 @@ const MyRestaurants = ({isLoggedIn, token}) => {
                             </Link>
                             <p className='h4'>{restaurant.categories[0].title}</p>
                             <p className='h4'>{restaurant.rating} ⭐ </p>
-                            <button onClick={() => { removeRestaurant(restaurant) }}>Remove</button>
+                            <button onClick={() => { removeRestaurant(restaurant) }}>{removedRestuarants.some(removed => removed._id === restaurant._id) ? "Undo Remove" : "Remove from My Favorite Restaurants"}</button>
                         </div>
                         );
                     })}
