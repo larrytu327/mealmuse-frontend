@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const MyRestaurants = ({isLoggedIn, token}) => {
     // const [myRestaurants, setMyRestaurants] = useState([]);
     const [user, setUser] = useState(null);
-    const [removedRestuarants, setRemovedRestaurants] = useState([]); 
+    const [removedRestaurants, setRemovedRestaurants] = useState([]); 
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -42,11 +42,14 @@ const MyRestaurants = ({isLoggedIn, token}) => {
             const updatedUser = await response.json();
             setUser(updatedUser.user);
             console.log(`Removed ${restaurant.name} from fav_restaurants`)
-            if (removedRestuarants.some(removed => removed._id === restaurant._id)) {
-                setRemovedRestaurants(removedRestuarants.filter(removed => removed._id !== restaurant._id));
-            } else {
-                setRemovedRestaurants([...removedRestuarants, restaurant]);
-            }
+            console.log("Remove clicked");
+            console.log(Array.isArray(removedRestaurants));
+            console.log(removedRestaurants.length)
+            console.log(restaurant);
+            setRemovedRestaurants([...removedRestaurants, restaurant]);
+            console.log(`removedRestaurants length: ${removedRestaurants.length}`)
+            console.log(Array.isArray(removedRestaurants));
+            console.log(removedRestaurants[0])
           } else {
             console.error('Failed to remove restaurant from favorites');
           }
@@ -56,12 +59,20 @@ const MyRestaurants = ({isLoggedIn, token}) => {
       };
 
     const loaded = () => {
+        const undoLastRemoval = () => {
+            if (removedRestaurants.length > 0) {
+                const lastRemovedRestaurant = removedRestaurants[removedRestaurants.length - 1];
+                removeRestaurant(lastRemovedRestaurant);
+                setRemovedRestaurants(removedRestaurants.slice(0,-1));
+            }
+        }
         return (
             <>
                 <h1>{user.first_name} {user.last_name}'s Favorite Restaurants</h1>  
                 <div className='container mt-4'>
                     <div className="row">
                     {user.fav_restaurants.map((restaurant) => {
+
                         return (
                         <div className='col-md-4 mb-4' key={restaurant._id}>
                             <Link to={`/restaurants/${restaurant._id}`}>
@@ -70,12 +81,15 @@ const MyRestaurants = ({isLoggedIn, token}) => {
                             </Link>
                             <p className='h4'>{restaurant.categories[0].title}</p>
                             <p className='h4'>{restaurant.rating} ⭐ </p>
-                            <button onClick={() => { removeRestaurant(restaurant) }}>{removedRestuarants.some(removed => removed._id === restaurant._id) ? "Undo Remove" : "Remove from My Favorite Restaurants"}</button>
+                            <button onClick={() => { removeRestaurant(restaurant) }}>Remove from My Favorite Restaurants</button>
                         </div>
                         );
                     })}
                     </div>
                 </div>
+                {removedRestaurants.length > 0 && (
+                    <button onClick={() => {undoLastRemoval()}}>Undo Last Removal</button>
+                )}
             </>
         );
       };
