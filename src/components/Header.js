@@ -27,9 +27,6 @@ const Header = ({ user, isLoggedIn, logout }) => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <Link className="nav-link" to="/">Home</Link>
-            </li>
-            <li className="nav-item">
               <Link className="nav-link" to="/restaurants">Restaurants</Link>
             </li>
             <>
@@ -39,7 +36,7 @@ const Header = ({ user, isLoggedIn, logout }) => {
                     <Link className="nav-link" to="/myrestaurants">My Favorite Restaurants</Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link" onClick={handleLogout}>Logout</Link>
+                    <Link className="nav-link" onClick={handleLogout}to="/">Logout</Link>
                   </li>
                 </>
               ) : (

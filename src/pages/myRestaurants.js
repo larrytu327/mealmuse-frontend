@@ -5,6 +5,7 @@ const MyRestaurants = ({isLoggedIn, token}) => {
     // const [myRestaurants, setMyRestaurants] = useState([]);
     const [user, setUser] = useState(null);
     const [removedRestaurants, setRemovedRestaurants] = useState([]); 
+    const [addedRestaurantToRandomizer, setAddedRestaurantToRandomizer] = useState([]);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -47,9 +48,6 @@ const MyRestaurants = ({isLoggedIn, token}) => {
             console.log(removedRestaurants.length)
             console.log(restaurant);
             setRemovedRestaurants([...removedRestaurants, restaurant]);
-            console.log(`removedRestaurants length: ${removedRestaurants.length}`)
-            console.log(Array.isArray(removedRestaurants));
-            console.log(removedRestaurants[0])
           } else {
             console.error('Failed to remove restaurant from favorites');
           }
@@ -58,13 +56,32 @@ const MyRestaurants = ({isLoggedIn, token}) => {
         }
       };
 
+    const addToFindRandom = async (restaurant) => {
+        try {
+            const response = await fetch(`http://localhost:4000/auth/add-to-randomizer`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify({ restaurant }),
+            });
+            if (response.ok) {
+                const updatedUser = await response.json();
+                setUser(updatedUser.user);
+                console.log(`Added ${restaurant.name} to randomizer`)
+                setAddedRestaurantToRandomizer([...addedRestaurantToRandomizer ,restaurant]);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     const loaded = () => {
         const undoLastRemoval = () => {
-            if (removedRestaurants.length > 0) {
-                const lastRemovedRestaurant = removedRestaurants[removedRestaurants.length - 1];
-                removeRestaurant(lastRemovedRestaurant);
-                setRemovedRestaurants(removedRestaurants.slice(0,-1));
-            }
+            const lastRemovedRestaurant = removedRestaurants[removedRestaurants.length - 1];
+            removeRestaurant(lastRemovedRestaurant);
+            setRemovedRestaurants([]);
         }
         return (
             <>
@@ -82,6 +99,8 @@ const MyRestaurants = ({isLoggedIn, token}) => {
                             <p className='h4'>{restaurant.categories[0].title}</p>
                             <p className='h4'>{restaurant.rating} ⭐ </p>
                             <button onClick={() => { removeRestaurant(restaurant) }}>Remove from My Favorite Restaurants</button>
+                            <p></p>
+                            <button onClick={() => { addToFindRandom(restaurant) }}>Add to Randomizer</button>
                         </div>
                         );
                     })}
