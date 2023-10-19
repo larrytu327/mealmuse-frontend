@@ -70,7 +70,7 @@ const MyRestaurants = ({isLoggedIn, token}) => {
                 const updatedUser = await response.json();
                 setUser(updatedUser.user);
                 console.log(`Added ${restaurant.name} to randomizer`)
-                setAddedRestaurantToRandomizer([...addedRestaurantToRandomizer ,restaurant]);
+                setAddedRestaurantToRandomizer([...addedRestaurantToRandomizer, restaurant]);
             }
         } catch (err) {
             console.log(err);
@@ -109,6 +109,20 @@ const MyRestaurants = ({isLoggedIn, token}) => {
                 {removedRestaurants.length > 0 && (
                     <button onClick={() => {undoLastRemoval()}}>Undo Last Removal</button>
                 )}
+                <p></p>
+                <p className='h3'>List of Restaurants for the Randomizer</p>
+                {addedRestaurantToRandomizer.length > 0 ? (
+                    user.addedToRandomizer.map((restaurant) => (
+                        <>
+                            <p>
+                                <Link className='h4' to={`/restaurants/${restaurant._id}`}>{restaurant.name}</Link>
+                            </p>
+                        </>
+                    ))
+                ) : (
+                    <p>No Restaurants Added to the Randomizer Yet</p>
+                    )
+                }
             </>
         );
       };
