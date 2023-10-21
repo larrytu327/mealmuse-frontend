@@ -72,6 +72,7 @@ const MyRestaurants = ({isLoggedIn, token}) => {
                 setUser(updatedUser.user);
                 console.log(`Added ${restaurant.name} to randomizer`)
                 setAddedRestaurantToRandomizer([...addedRestaurantToRandomizer, restaurant]);
+                setRandomIndex(0);
             }
         } catch (err) {
             console.log(err);
@@ -83,21 +84,6 @@ const MyRestaurants = ({isLoggedIn, token}) => {
             const random = Math.floor(Math.random()*(array.length))+1;
             console.log(random);
             setRandomIndex(random);
-            return random;
-            // return (
-            //     <>
-                    
-            //                 <div className='col-md-4 mb-4' key={array[randomIndex]._id}>
-            //                     <Link to={`/restaurants/${array[randomIndex]._id}`}>
-            //                     <p className='h3'>{array[randomIndex].name}</p>
-            //                     <img src={array[randomIndex].image_url} className="img-fluid fixed-size-image rounded shadow mx-auto d-block" alt={array[randomIndex].name}></img>
-            //                     </Link>
-            //                     <p className='h4'>{array[randomIndex].categories[0].title}</p>
-            //                     <p className='h4'>{array[randomIndex].rating} ⭐ </p>
-            //                 </div>
-
-            //     </>
-            // )            
         } catch (err) {
             console.log(err);
         }
@@ -151,7 +137,16 @@ const MyRestaurants = ({isLoggedIn, token}) => {
                 }
                 <button className="btn btn-primary" onClick={() => {randomizer(user.addedToRandomizer)}}>What Are We Eating??</button>
                 <p></p>
-                {randomIndex > 0 ? (<Link className='h4' to={`/restaurants/${user.addedToRandomizer[randomIndex-1]._id}`}>{user.addedToRandomizer[randomIndex-1].name}</Link>) : (<></>)}
+                {randomIndex > 0 ? (
+                    <>
+                        <Link to={`/restaurants/${user.addedToRandomizer[randomIndex-1]._id}`}>
+                        <p className='h3'>{user.addedToRandomizer[randomIndex-1].name}</p>
+                        <img src={user.addedToRandomizer[randomIndex-1].image_url} className="img-fluid fixed-size-image rounded shadow mx-auto d-block" alt={user.addedToRandomizer[randomIndex-1].name}></img>
+                        </Link>
+                        <p className='h4'>{user.addedToRandomizer[randomIndex-1].categories[0].title}</p>
+                        <p className='h4'>{user.addedToRandomizer[randomIndex-1].rating} ⭐ </p>
+                </>
+                ) : (<></>)}
             </>
         );
       };
