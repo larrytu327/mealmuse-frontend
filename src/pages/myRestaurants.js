@@ -6,6 +6,7 @@ const MyRestaurants = ({isLoggedIn, token}) => {
     const [user, setUser] = useState(null);
     const [removedRestaurants, setRemovedRestaurants] = useState([]); 
     const [addedRestaurantToRandomizer, setAddedRestaurantToRandomizer] = useState([]);
+    const [randomIndex, setRandomIndex] = useState([]);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -77,6 +78,31 @@ const MyRestaurants = ({isLoggedIn, token}) => {
         }
     };
 
+    const randomizer = async (array) => {
+        try {
+            const random = Math.floor(Math.random()*(array.length))+1;
+            console.log(random);
+            setRandomIndex(random);
+            return random;
+            // return (
+            //     <>
+                    
+            //                 <div className='col-md-4 mb-4' key={array[randomIndex]._id}>
+            //                     <Link to={`/restaurants/${array[randomIndex]._id}`}>
+            //                     <p className='h3'>{array[randomIndex].name}</p>
+            //                     <img src={array[randomIndex].image_url} className="img-fluid fixed-size-image rounded shadow mx-auto d-block" alt={array[randomIndex].name}></img>
+            //                     </Link>
+            //                     <p className='h4'>{array[randomIndex].categories[0].title}</p>
+            //                     <p className='h4'>{array[randomIndex].rating} ⭐ </p>
+            //                 </div>
+
+            //     </>
+            // )            
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     const loaded = () => {
         const undoLastRemoval = () => {
             const lastRemovedRestaurant = removedRestaurants[removedRestaurants.length - 1];
@@ -98,24 +124,24 @@ const MyRestaurants = ({isLoggedIn, token}) => {
                             </Link>
                             <p className='h4'>{restaurant.categories[0].title}</p>
                             <p className='h4'>{restaurant.rating} ⭐ </p>
-                            <button onClick={() => { removeRestaurant(restaurant) }}>Remove from My Favorite Restaurants</button>
+                            <button type="button" class="btn btn-danger" onClick={() => { removeRestaurant(restaurant) }}>Remove from My Favorite Restaurants</button>
                             <p></p>
-                            <button onClick={() => { addToFindRandom(restaurant) }}>Add to Randomizer</button>
+                            <button type="button" class="btn btn-primary" onClick={() => { addToFindRandom(restaurant) }}>Add to Randomizer</button>
                         </div>
                         );
                     })}
                     </div>
                 </div>
                 {removedRestaurants.length > 0 && (
-                    <button onClick={() => {undoLastRemoval()}}>Undo Last Removal</button>
+                    <button class="btn btn-info" onClick={() => {undoLastRemoval()}}>Undo Last Removal/Add</button>
                 )}
                 <p></p>
                 <p className='h3'>List of Restaurants for the Randomizer</p>
-                {addedRestaurantToRandomizer.length > 0 ? (
+                {user.addedToRandomizer.length > 0 ? (
                     user.addedToRandomizer.map((restaurant) => (
                         <>
                             <p>
-                                <Link className='h4' to={`/restaurants/${restaurant._id}`}>{restaurant.name}</Link>
+                                <Link key={restaurant._id} className='h4' to={`/restaurants/${restaurant._id}`}>{restaurant.name}</Link>
                             </p>
                         </>
                     ))
@@ -123,6 +149,9 @@ const MyRestaurants = ({isLoggedIn, token}) => {
                     <p>No Restaurants Added to the Randomizer Yet</p>
                     )
                 }
+                <button className="btn btn-primary" onClick={() => {randomizer(user.addedToRandomizer)}}>What Are We Eating??</button>
+                <p></p>
+                {randomIndex > 0 ? (<Link className='h4' to={`/restaurants/${user.addedToRandomizer[randomIndex-1]._id}`}>{user.addedToRandomizer[randomIndex-1].name}</Link>) : (<></>)}
             </>
         );
       };

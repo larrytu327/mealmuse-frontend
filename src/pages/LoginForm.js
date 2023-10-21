@@ -38,6 +38,7 @@ const LoginForm = ({login}) => {
           name="username"
           value={input.username}
           onChange={handleChange}
+          placeholder="name@example.com"
         />
         <br />
         <br />
@@ -51,11 +52,11 @@ const LoginForm = ({login}) => {
         />
         <br />
         <br />
-        <input type="submit" value="Log In" />
+        <input class="btn btn-primary" type="submit" value="Log In" />
       </form>
       <br />
       <br />
-      <button className='create-account-button' onClick={handleCreateAccountClick}>Create New Account</button>
+      <button type="button" class="btn btn-primary" className='create-account-button' onClick={handleCreateAccountClick}>Create New Account</button>
     </>
   );
 };

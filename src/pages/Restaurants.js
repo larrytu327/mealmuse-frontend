@@ -82,7 +82,7 @@ const Restaurants = ({isLoggedIn, token}) =>{
                   <p className='h4'>{restaurant.categories[0].title}</p>
                   <p className='h4'>{restaurant.rating} ⭐ </p>
                   {isLoggedIn && (
-                    <button onClick={() => { addToMyRestaurants(restaurant)}}>{isFavorite ? "Remove from My Favorite Restaurants" : "Add to My Favorite Restaurants"}</button>
+                    <button type="button" class={`btn ${isFavorite ? "btn-danger" : "btn-secondary"}`} onClick={() => { addToMyRestaurants(restaurant)}}>{isFavorite ? "Remove from My Favorite Restaurants" : "Add to My Favorite Restaurants"}</button>
                   )}
                 </div>
               );
