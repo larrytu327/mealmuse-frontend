@@ -139,12 +139,14 @@ const MyRestaurants = ({isLoggedIn, token}) => {
                 <p></p>
                 {randomIndex > 0 ? (
                     <>
-                        <Link to={`/restaurants/${user.addedToRandomizer[randomIndex-1]._id}`}>
-                        <p className='h3'>{user.addedToRandomizer[randomIndex-1].name}</p>
-                        <img src={user.addedToRandomizer[randomIndex-1].image_url} className="img-fluid fixed-size-image rounded shadow mx-auto d-block" alt={user.addedToRandomizer[randomIndex-1].name}></img>
-                        </Link>
-                        <p className='h4'>{user.addedToRandomizer[randomIndex-1].categories[0].title}</p>
-                        <p className='h4'>{user.addedToRandomizer[randomIndex-1].rating} ⭐ </p>
+                        <div className="container p-4 bg-success" style={{maxWidth: '400px' }}>
+                            <Link className="text-black" to={`/restaurants/${user.addedToRandomizer[randomIndex-1]._id}`}>
+                            <p className='h3'>{user.addedToRandomizer[randomIndex-1].name}</p>
+                            <img src={user.addedToRandomizer[randomIndex-1].image_url} className="img-fluid fixed-size-image rounded shadow mx-auto d-block" alt={user.addedToRandomizer[randomIndex-1].name}></img>
+                            </Link>
+                            <p className='h4'>{user.addedToRandomizer[randomIndex-1].categories[0].title}</p>
+                            <p className='h4'>{user.addedToRandomizer[randomIndex-1].rating} ⭐ </p>
+                        </div>
                 </>
                 ) : (<></>)}
             </>
