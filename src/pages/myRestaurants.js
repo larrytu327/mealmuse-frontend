@@ -135,11 +135,11 @@ const MyRestaurants = ({isLoggedIn, token}) => {
                     <p>No Restaurants Added to the Randomizer Yet</p>
                     )
                 }
-                <button className="btn btn-primary" onClick={() => {randomizer(user.addedToRandomizer)}}>What Are We Eating??</button>
+                <button className="btn btn-primary" onClick={() => {randomizer(user.addedToRandomizer)}}>Where Are We Eating??</button>
                 <p></p>
                 {randomIndex > 0 ? (
                     <>
-                        <div className="container p-4 bg-success" style={{maxWidth: '400px' }}>
+                        <div className="container p-4 bg-success" style={{maxWidth: '400px', borderRadius: '15px' }}>
                             <Link className="text-black" to={`/restaurants/${user.addedToRandomizer[randomIndex-1]._id}`}>
                             <p className='h3'>{user.addedToRandomizer[randomIndex-1].name}</p>
                             <img src={user.addedToRandomizer[randomIndex-1].image_url} className="img-fluid fixed-size-image rounded shadow mx-auto d-block" alt={user.addedToRandomizer[randomIndex-1].name}></img>
