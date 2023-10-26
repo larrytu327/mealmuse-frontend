@@ -83,7 +83,7 @@ const MyRestaurants = ({isLoggedIn, token}) => {
         try {
             const index = user.addedToRandomizer.indexOf(restaurant);
             console.log(index);
-            
+
         } catch(err) {
             console.log(err);
         }
@@ -138,7 +138,7 @@ const MyRestaurants = ({isLoggedIn, token}) => {
                         <>
                             <p>
                                 <Link key={restaurant._id} className='h4' to={`/restaurants/${restaurant._id}`}>{restaurant.name}</Link>
-                                <button class="btn btn-danger" onClick={() => {removeFromRandomizer(restaurant)}}>Remove</button>
+                                <button class="btn btn-danger" onClick={() => {addToFindRandom(restaurant)}}>Remove</button>
                             </p>
                         </>
                     ))
