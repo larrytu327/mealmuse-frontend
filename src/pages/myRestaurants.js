@@ -79,16 +79,6 @@ const MyRestaurants = ({isLoggedIn, token}) => {
         }
     };
 
-    const removeFromRandomizer = async (restaurant) => {
-        try {
-            const index = user.addedToRandomizer.indexOf(restaurant);
-            console.log(index);
-
-        } catch(err) {
-            console.log(err);
-        }
-    };
-
     const randomizer = async (array) => {
         try {
             const random = Math.floor(Math.random()*(array.length))+1;
@@ -138,7 +128,7 @@ const MyRestaurants = ({isLoggedIn, token}) => {
                         <>
                             <p>
                                 <Link key={restaurant._id} className='h4' to={`/restaurants/${restaurant._id}`}>{restaurant.name}</Link>
-                                <button class="btn btn-danger" onClick={() => {addToFindRandom(restaurant)}}>Remove</button>
+                                <button class="btn btn-danger m-2" onClick={() => {addToFindRandom(restaurant)}}>Remove</button>
                             </p>
                         </>
                     ))
