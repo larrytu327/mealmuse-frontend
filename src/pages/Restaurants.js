@@ -5,6 +5,7 @@ const Restaurants = ({isLoggedIn, token}) =>{
 
     const [restaurants, setRestaurants] = useState([])
     const [user, setUser] = useState(null);
+    const [citySearch, setCitySearch] = useState(null);
 
 		const BASE_URL = "http://localhost:4000/restaurants/";
 
@@ -39,6 +40,17 @@ const Restaurants = ({isLoggedIn, token}) =>{
         console.log(err);
       }
     };
+
+    const settingCity = async (city) => {
+      try {
+        setCitySearch(city);
+        const response = await fetch(`${BASE_URL}?city=${city}`);
+        const updatedRestaurants = await response.json();
+        setRestaurants(updatedRestaurants);
+      } catch (err) {
+        console.log(err);
+      }
+    }
     
     useEffect(() => {
       const fetchUser = async () => {
@@ -69,26 +81,45 @@ const Restaurants = ({isLoggedIn, token}) =>{
 
     const loaded = () => {
       return (
-        <div className='container mt-4'>
-          <div className="row">
-            {restaurants.map((restaurant) => {
-              const isFavorite = user && user.fav_restaurants.find(favRestaurant => favRestaurant._id === restaurant._id) !== undefined;
-              return (
-                <div className='col-md-4 mb-4' key={restaurant._id}>
-                  <Link to={`/restaurants/${restaurant._id}`}>
-                    <p className='h3'>{restaurant.name}</p>
-                    <img src={restaurant.image_url} className="img-fluid fixed-size-image rounded shadow mx-auto d-block" alt={restaurant.name}></img>
-                  </Link>
-                  <p className='h4'>{restaurant.categories[0].title}</p>
-                  <p className='h4'>{restaurant.rating} ⭐ </p>
-                  {isLoggedIn && (
-                    <button type="button" class={`btn ${isFavorite ? "btn-danger" : "btn-secondary"}`} onClick={() => { addToMyRestaurants(restaurant)}}>{isFavorite ? "Remove from My Favorite Restaurants" : "Add to My Favorite Restaurants"}</button>
-                  )}
-                </div>
-              );
-            })}
+        <>
+          <div class="btn-group">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              City: {restaurants[0].location.city}
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><button class="dropdown-item" onClick={() => settingCity("Austin")} >Austin</button></li>
+              <li><button class="dropdown-item" onClick={() => settingCity("Boston")}>Boston</button></li>
+              <li><button class="dropdown-item" onClick={() => settingCity("Chicago")}>Chicago</button></li>
+              <li><button class="dropdown-item" onClick={() => settingCity("Houston")}>Houston</button></li>
+              <li><button class="dropdown-item" onClick={() => settingCity("Kansas_City")}>Kansas City</button></li>
+              <li><button class="dropdown-item" onClick={() => settingCity("Los_Angeles")}>Los Angeles</button></li>
+              <li><button class="dropdown-item" onClick={() => settingCity("New_York")}>New York</button></li>
+              <li><button class="dropdown-item" onClick={() => settingCity("Portland")}>Portland</button></li>
+              <li><button class="dropdown-item" onClick={() => settingCity("San_Francisco")}>San Francisco</button></li>
+              <li><button class="dropdown-item" onClick={() => settingCity("Seattle")}>Seattle</button></li>
+            </ul>
           </div>
-        </div>
+          <div className='container mt-4'>
+            <div className="row">
+              {restaurants.map((restaurant) => {
+                const isFavorite = user && user.fav_restaurants.find(favRestaurant => favRestaurant._id === restaurant._id) !== undefined;
+                return (
+                  <div className='col-md-4 mb-4' key={restaurant._id}>
+                    <Link to={`/restaurants/${restaurant._id}`}>
+                      <p className='h3'>{restaurant.name}</p>
+                      <img src={restaurant.image_url} className="img-fluid fixed-size-image rounded shadow mx-auto d-block" alt={restaurant.name}></img>
+                    </Link>
+                    <p className='h4'>{restaurant.categories[0].title}</p>
+                    <p className='h4'>{restaurant.rating} ⭐ </p>
+                    {isLoggedIn && (
+                      <button type="button" class={`btn ${isFavorite ? "btn-danger" : "btn-secondary"}`} onClick={() => { addToMyRestaurants(restaurant)}}>{isFavorite ? "Remove from My Favorite Restaurants" : "Add to My Favorite Restaurants"}</button>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </>
       );
     };
     
