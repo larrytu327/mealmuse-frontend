@@ -95,6 +95,15 @@ const MyRestaurants = ({isLoggedIn, token}) => {
             removeRestaurant(lastRemovedRestaurant);
             setRemovedRestaurants([]);
         }
+
+        const sortedFavRestaurants = [...user.fav_restaurants].sort((a, b) => {
+            const cityA = a.location.city.toLowerCase();
+            const cityB = b.location.city.toLowerCase();
+            if (cityA < cityB) return -1;
+            if (cityA > cityB) return 1;
+            return 0;
+        });
+        
         return (
             <>
                 <h1>{user.first_name} {user.last_name}'s Favorite Restaurants</h1>  
