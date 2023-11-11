@@ -32,7 +32,7 @@ const Restaurants = ({isLoggedIn, token}) =>{
         if (response.ok) {
           const updatedUser = await response.json();
           setUser(updatedUser.user);
-          console.log(`Added ${restaurant.name} to fav_restaurants`)
+          console.log(`Added ${restaurant.name} to fav_restaurants, with _id: ${restaurant.id}`)
         } else {
           console.error('Failed to add restaurant to favorites');
         }
@@ -102,10 +102,10 @@ const Restaurants = ({isLoggedIn, token}) =>{
           <div className='container mt-4'>
             <div className="row">
               {restaurants.map((restaurant) => {
-                const isFavorite = user && user.fav_restaurants.find(favRestaurant => favRestaurant._id === restaurant._id) !== undefined;
+                const isFavorite = user && user.fav_restaurants.find(favRestaurant => favRestaurant.id === restaurant.id) !== undefined;
                 return (
-                  <div className='col-md-4 mb-4' key={restaurant._id}>
-                    <Link to={`/restaurants/${restaurant._id}`}>
+                  <div className='col-md-4 mb-4' key={restaurant.id}>
+                    <Link to={`/restaurants/${restaurant.id}`}>
                       <p className='h3'>{restaurant.name}</p>
                       <img src={restaurant.image_url} className="img-fluid fixed-size-image rounded shadow mx-auto d-block" alt={restaurant.name}></img>
                     </Link>
