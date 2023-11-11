@@ -106,22 +106,43 @@ const MyRestaurants = ({isLoggedIn, token}) => {
 
         return (
             <>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    Sort By City
+                    </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            {sortedFavRestaurants.map((restaurant) => {
+                                return (
+                                    <>
+                                        <li><button class="dropdown-item" >{restaurant.location.city}</button></li>
+                                    </>
+                                )
+                            })}
+                        </ul>
+                </div>
                 <h1>{user.first_name} {user.last_name}'s Favorite Restaurants</h1>  
                 <div className='container mt-4'>
                     <div className="row">
                     {sortedFavRestaurants.map((restaurant) => {
                         return (
-                        <div className='col-md-4 mb-4' key={restaurant.id}>
-                            <Link to={`/restaurants/${restaurant.id}`}>
-                            <p className='h3'>{restaurant.name}</p>
-                            <img src={restaurant.image_url} className="img-fluid fixed-size-image rounded shadow mx-auto d-block" alt={restaurant.name}></img>
-                            </Link>
-                            <p className='h4'>{restaurant.categories[0].title}</p>
-                            <p className='h4'>{restaurant.rating} ⭐ </p>
-                            <button type="button" class="btn btn-danger" onClick={() => { removeRestaurant(restaurant) }}>Remove from My Favorite Restaurants</button>
-                            <p></p>
-                            <button type="button" class="btn btn-primary" onClick={() => { addToFindRandom(restaurant) }}>Add to Randomizer</button>
-                        </div>
+                        <>  
+                            {/* <div className='container mt-4'> */}
+                                {/* <div className='row'>   */}
+                                    <div className='col-md-4 mb-4' key={restaurant.id}>
+                                        <Link to={`/restaurants/${restaurant.id}`}>
+                                        <p className='h3'>{restaurant.name}</p>
+                                        <img src={restaurant.image_url} className="img-fluid fixed-size-image rounded shadow mx-auto d-block" alt={restaurant.name}></img>
+                                        </Link>
+                                        <p className='h4'>{restaurant.location.city}</p>
+                                        <p className='h4'>{restaurant.categories[0].title}</p>
+                                        <p className='h4'>{restaurant.rating} ⭐ </p>
+                                        <button type="button" class="btn btn-danger" onClick={() => { removeRestaurant(restaurant) }}>Remove from My Favorite Restaurants</button>
+                                        <p></p>
+                                        <button type="button" class="btn btn-primary" onClick={() => { addToFindRandom(restaurant) }}>Add to Randomizer</button>
+                                    </div>
+                                {/* </div> */}
+                            {/* </div> */}
+                        </>
                         );
                     })}
                     </div>
