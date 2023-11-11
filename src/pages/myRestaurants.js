@@ -103,17 +103,16 @@ const MyRestaurants = ({isLoggedIn, token}) => {
             if (cityA > cityB) return 1;
             return 0;
         });
-        
+
         return (
             <>
                 <h1>{user.first_name} {user.last_name}'s Favorite Restaurants</h1>  
                 <div className='container mt-4'>
                     <div className="row">
-                    {user.fav_restaurants.map((restaurant) => {
-
+                    {sortedFavRestaurants.map((restaurant) => {
                         return (
-                        <div className='col-md-4 mb-4' key={restaurant._id}>
-                            <Link to={`/restaurants/${restaurant._id}`}>
+                        <div className='col-md-4 mb-4' key={restaurant.id}>
+                            <Link to={`/restaurants/${restaurant.id}`}>
                             <p className='h3'>{restaurant.name}</p>
                             <img src={restaurant.image_url} className="img-fluid fixed-size-image rounded shadow mx-auto d-block" alt={restaurant.name}></img>
                             </Link>
