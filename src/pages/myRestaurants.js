@@ -110,6 +110,44 @@ const MyRestaurants = ({isLoggedIn, token}) => {
                 <p></p>
                 {randomIndex > 0 ? (
                     <>
+                        <div id="carouselWithCaptions" className="carousel slide" data-bs-ride="carousel">
+                            <ol className="carousel-indicators">
+                                <li data-bs-target="#carouselWithCaptions" data-bs-slide-to="0" className="active"></li>
+                                <li data-bs-target="#carouselWithCaptions" data-bs-slide-to="1" className="active"></li>
+                                <li data-bs-target="#carouselWithCaptions" data-bs-slide-to="2" className="active"></li>
+                            </ol>
+                            <div className="carousel-inner">
+                                <div className="carousel-item active">
+                                    <img src="" className="d-block w-100" alt="Slide 1"></img>
+                                    <div className="carousel-caption d-none d-sm-block">
+                                        <h5>First Slide Label</h5>
+                                        <p>ASDF asdf asdfl;jkasd;lf asddaadsfasdf asdf.</p>
+                                    </div>
+                                </div>
+                                <div className="carousel-item">
+                                    <img src="" className="d-block w-100" alt="Slide 2"></img>
+                                    <div className="carousel-caption d-none d-sm-block">
+                                        <h5>Second Slide Label</h5>
+                                        <p>ASDF asdf asdfl;jkasd;lf asddaadsfasdf asdf.</p>
+                                    </div>
+                                </div>
+                                <div className="carousel-item">
+                                    <img src="" className="d-block w-100" alt="Slide 3"></img>
+                                    <div className="carousel-caption d-none d-sm-block">
+                                        <h5>Third Slide Label</h5>
+                                        <p>ASDF asdf asdfl;jkasd;lf asddaadsfasdf asdf.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <a className="carousel-control-prev" href="#carouelWithCaptions" role="button" data-bs-slide="prev">
+                                <span clasName="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span className="visually-hidden">Previou</span>
+                            </a>
+                            <a className="carousel-control-next" href="#carouselWithCaptions" role="button">
+                                <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span className="visually-hidden">Next</span>
+                            </a>
+                        </div>
                         <div className="container p-4 bg-success" style={{maxWidth: '400px', borderRadius: '15px' }}>
                             <Link className="text-black" to={`/restaurants/${user.addedToRandomizer[randomIndex-1].id}`}>
                             <p className='h3'>{user.addedToRandomizer[randomIndex-1].name}</p>
