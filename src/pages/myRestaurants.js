@@ -106,6 +106,35 @@ const MyRestaurants = ({isLoggedIn, token}) => {
 
         return (
             <>
+                <button className="btn btn-primary" onClick={() => {randomizer(user.addedToRandomizer)}}>Where Are We Eating??</button>
+                <p></p>
+                {randomIndex > 0 ? (
+                    <>
+                        <div className="container p-4 bg-success" style={{maxWidth: '400px', borderRadius: '15px' }}>
+                            <Link className="text-black" to={`/restaurants/${user.addedToRandomizer[randomIndex-1].id}`}>
+                            <p className='h3'>{user.addedToRandomizer[randomIndex-1].name}</p>
+                            <img src={user.addedToRandomizer[randomIndex-1].image_url} className="img-fluid fixed-size-image rounded shadow mx-auto d-block" alt={user.addedToRandomizer[randomIndex-1].name}></img>
+                            </Link>
+                            <p className='h4'>{user.addedToRandomizer[randomIndex-1].categories[0].title}</p>
+                            <p className='h4'>{user.addedToRandomizer[randomIndex-1].rating} ⭐ </p>
+                        </div>
+                </>
+                ) : (<></>)}
+                <p></p>
+                <p className='h3'>List of Restaurants for the Randomizer</p>
+                {user.addedToRandomizer.length > 0 ? (
+                    user.addedToRandomizer.map((restaurant) => (
+                        <>
+                            <p>
+                                <Link key={restaurant.id} className='h4' to={`/restaurants/${restaurant.id}`}>{restaurant.name}</Link>
+                                <button class="btn btn-danger m-2" onClick={() => {addToFindRandom(restaurant)}}>Remove</button>
+                            </p>
+                        </>
+                    ))
+                ) : (
+                    <p>No Restaurants Added to the Randomizer Yet</p>
+                    )
+                }
                 <div class="btn-group">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     Sort By City
@@ -151,34 +180,6 @@ const MyRestaurants = ({isLoggedIn, token}) => {
                     <button class="btn btn-info" onClick={() => {undoLastRemoval()}}>Undo Last Removal/Add</button>
                 )}
                 <p></p>
-                <p className='h3'>List of Restaurants for the Randomizer</p>
-                {user.addedToRandomizer.length > 0 ? (
-                    user.addedToRandomizer.map((restaurant) => (
-                        <>
-                            <p>
-                                <Link key={restaurant._id} className='h4' to={`/restaurants/${restaurant._id}`}>{restaurant.name}</Link>
-                                <button class="btn btn-danger m-2" onClick={() => {addToFindRandom(restaurant)}}>Remove</button>
-                            </p>
-                        </>
-                    ))
-                ) : (
-                    <p>No Restaurants Added to the Randomizer Yet</p>
-                    )
-                }
-                <button className="btn btn-primary" onClick={() => {randomizer(user.addedToRandomizer)}}>Where Are We Eating??</button>
-                <p></p>
-                {randomIndex > 0 ? (
-                    <>
-                        <div className="container p-4 bg-success" style={{maxWidth: '400px', borderRadius: '15px' }}>
-                            <Link className="text-black" to={`/restaurants/${user.addedToRandomizer[randomIndex-1]._id}`}>
-                            <p className='h3'>{user.addedToRandomizer[randomIndex-1].name}</p>
-                            <img src={user.addedToRandomizer[randomIndex-1].image_url} className="img-fluid fixed-size-image rounded shadow mx-auto d-block" alt={user.addedToRandomizer[randomIndex-1].name}></img>
-                            </Link>
-                            <p className='h4'>{user.addedToRandomizer[randomIndex-1].categories[0].title}</p>
-                            <p className='h4'>{user.addedToRandomizer[randomIndex-1].rating} ⭐ </p>
-                        </div>
-                </>
-                ) : (<></>)}
             </>
         );
       };
