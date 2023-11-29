@@ -99,6 +99,19 @@ const Restaurants = ({isLoggedIn, token}) =>{
               <li><button class="dropdown-item" onClick={() => settingCity("Seattle")}>Seattle</button></li>
             </ul>
           </div>
+          <p></p>
+          <div class="btn-group">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              Filter by Restaurant Category
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              {restaurants.map((restaurant) => (
+                <li key={restaurant.id}>
+                  <button class="dropdown-item" onClick={() => settingCity("Austin")} >{restaurant.categories[0].title}</button>
+                </li>
+              ))}
+            </ul>
+          </div>
           <div className='container mt-4'>
             <div className="row">
               {restaurants.map((restaurant) => {

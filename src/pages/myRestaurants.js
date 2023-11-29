@@ -156,10 +156,10 @@ const MyRestaurants = ({isLoggedIn, token}) => {
                     
                     user.addedToRandomizer.map((restaurant) => (
                         <>
-                            {/* <p>
+                            <p>
                                 <Link key={restaurant.id} className='h4' to={`/restaurants/${restaurant.id}`}>{restaurant.name}</Link>
                                 <button class="btn btn-danger m-2" onClick={() => {addToFindRandom(restaurant)}}>Remove</button>
-                            </p> */}
+                            </p>
                         </>
                     ))
                 ) : (
