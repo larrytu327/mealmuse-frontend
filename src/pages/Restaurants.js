@@ -6,6 +6,8 @@ const Restaurants = ({isLoggedIn, token}) =>{
     const [restaurants, setRestaurants] = useState([])
     const [user, setUser] = useState(null);
     const [citySearch, setCitySearch] = useState(null);
+    const uniqueCategories = Array.from(new Set(restaurants.map(restaurant => restaurant.categories[0].title)));
+    const sortedCategories = uniqueCategories.sort();
 
 		const BASE_URL = "http://localhost:4000/restaurants/";
 
@@ -48,6 +50,14 @@ const Restaurants = ({isLoggedIn, token}) =>{
         const updatedRestaurants = await response.json();
         setRestaurants(updatedRestaurants);
       } catch (err) {
+        console.log(err);
+      }
+    }
+
+    const filterByCategory = async(category) => {
+      try {
+        
+      } catch(err) {
         console.log(err);
       }
     }
@@ -104,10 +114,11 @@ const Restaurants = ({isLoggedIn, token}) =>{
             <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
               Filter by Restaurant Category
             </button>
-            <ul class="dropdown-menu dropdown-menu-end">
-              {restaurants.map((restaurant) => (
-                <li key={restaurant.id}>
-                  <button class="dropdown-item" onClick={() => settingCity("Austin")} >{restaurant.categories[0].title}</button>
+            <ul className="dropdown-menu dropdown-menu-end">
+              {sortedCategories.map((category) => (
+                <li key={category}>
+                  <button className="dropdown-item" onClick={() => filterByCategory(category)} >{category}
+                  </button>
                 </li>
               ))}
             </ul>
