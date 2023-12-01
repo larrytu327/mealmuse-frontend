@@ -8,6 +8,7 @@ const Restaurants = ({isLoggedIn, token}) =>{
     const [citySearch, setCitySearch] = useState(null);
     const uniqueCategories = Array.from(new Set(restaurants.map(restaurant => restaurant.categories[0].title)));
     const sortedCategories = uniqueCategories.sort();
+    const [category, setCategory] = useState([]);
 
 		const BASE_URL = "http://localhost:4000/restaurants/";
 
@@ -46,7 +47,7 @@ const Restaurants = ({isLoggedIn, token}) =>{
     const settingCity = async (city) => {
       try {
         setCitySearch(city);
-        const response = await fetch(`${BASE_URL}?city=${city}`);
+        const response = await fetch(`${BASE_URL}?location=${city}`);
         const updatedRestaurants = await response.json();
         setRestaurants(updatedRestaurants);
       } catch (err) {
@@ -54,9 +55,10 @@ const Restaurants = ({isLoggedIn, token}) =>{
       }
     }
 
-    const filterByCategory = async(category) => {
+    const filterByCategory = async(categoryChosen) => {
       try {
-        
+        setCategory(categoryChosen);
+        const response = await fetch(`${BASE_URL}`)
       } catch(err) {
         console.log(err);
       }
