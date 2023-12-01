@@ -44,10 +44,10 @@ const Restaurants = ({isLoggedIn, token}) =>{
       }
     };
 
-    const settingCity = async (city) => {
+    const settingCity = async (city, categoryChosen) => {
       try {
         setCitySearch(city);
-        const response = await fetch(`${BASE_URL}?location=${city}`);
+        const response = await fetch(`${BASE_URL}?location=${city}&categories=${categoryChosen}`);
         const updatedRestaurants = await response.json();
         setRestaurants(updatedRestaurants);
       } catch (err) {
@@ -55,10 +55,12 @@ const Restaurants = ({isLoggedIn, token}) =>{
       }
     }
 
-    const filterByCategory = async(categoryChosen) => {
+    const filterByCategory = async(categoryChosen, city) => {
       try {
         setCategory(categoryChosen);
-        const response = await fetch(`${BASE_URL}`)
+        const response = await fetch(`${BASE_URL}?categories=${categoryChosen}&location=${city}`);
+        const updatedRestaurants = await response.json();
+        setRestaurants(updatedRestaurants);
       } catch(err) {
         console.log(err);
       }
@@ -99,16 +101,16 @@ const Restaurants = ({isLoggedIn, token}) =>{
               City: {restaurants[0].location.city}
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
-              <li><button class="dropdown-item" onClick={() => settingCity("Austin")} >Austin</button></li>
-              <li><button class="dropdown-item" onClick={() => settingCity("Boston")}>Boston</button></li>
-              <li><button class="dropdown-item" onClick={() => settingCity("Chicago")}>Chicago</button></li>
-              <li><button class="dropdown-item" onClick={() => settingCity("Houston")}>Houston</button></li>
-              <li><button class="dropdown-item" onClick={() => settingCity("Kansas_City")}>Kansas City</button></li>
-              <li><button class="dropdown-item" onClick={() => settingCity("Los_Angeles")}>Los Angeles</button></li>
-              <li><button class="dropdown-item" onClick={() => settingCity("New_York")}>New York</button></li>
-              <li><button class="dropdown-item" onClick={() => settingCity("Portland")}>Portland</button></li>
-              <li><button class="dropdown-item" onClick={() => settingCity("San_Francisco")}>San Francisco</button></li>
-              <li><button class="dropdown-item" onClick={() => settingCity("Seattle")}>Seattle</button></li>
+              <li><button class="dropdown-item" onClick={() => settingCity("Austin", category)} >Austin</button></li>
+              <li><button class="dropdown-item" onClick={() => settingCity("Boston", category)}>Boston</button></li>
+              <li><button class="dropdown-item" onClick={() => settingCity("Chicago", category)}>Chicago</button></li>
+              <li><button class="dropdown-item" onClick={() => settingCity("Houston", category)}>Houston</button></li>
+              <li><button class="dropdown-item" onClick={() => settingCity("Kansas_City", category)}>Kansas City</button></li>
+              <li><button class="dropdown-item" onClick={() => settingCity("Los_Angeles", category)}>Los Angeles</button></li>
+              <li><button class="dropdown-item" onClick={() => settingCity("New_York", category)}>New York</button></li>
+              <li><button class="dropdown-item" onClick={() => settingCity("Portland", category)}>Portland</button></li>
+              <li><button class="dropdown-item" onClick={() => settingCity("San_Francisco", category)}>San Francisco</button></li>
+              <li><button class="dropdown-item" onClick={() => settingCity("Seattle", category)}>Seattle</button></li>
             </ul>
           </div>
           <p></p>
@@ -119,7 +121,7 @@ const Restaurants = ({isLoggedIn, token}) =>{
             <ul className="dropdown-menu dropdown-menu-end">
               {sortedCategories.map((category) => (
                 <li key={category}>
-                  <button className="dropdown-item" onClick={() => filterByCategory(category)} >{category}
+                  <button className="dropdown-item" onClick={() => filterByCategory(category, citySearch)} >{category}
                   </button>
                 </li>
               ))}
