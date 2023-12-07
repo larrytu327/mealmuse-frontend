@@ -8,6 +8,7 @@ const MyRestaurants = ({isLoggedIn, token}) => {
     const [addedRestaurantToRandomizer, setAddedRestaurantToRandomizer] = useState([]);
     const [randomIndex, setRandomIndex] = useState([]);
 
+
     useEffect(() => {
         const fetchUser = async () => {
             try {
@@ -95,14 +96,31 @@ const MyRestaurants = ({isLoggedIn, token}) => {
             removeRestaurant(lastRemovedRestaurant);
             setRemovedRestaurants([]);
         }
+        const uniqueCities = new Set();
 
-        const sortedFavRestaurants = [...user.fav_restaurants].sort((a, b) => {
-            const cityA = a.location.city.toLowerCase();
-            const cityB = b.location.city.toLowerCase();
-            if (cityA < cityB) return -1;
-            if (cityA > cityB) return 1;
-            return 0;
-        });
+        const sortedFavRestaurants = [...user.fav_restaurants]
+            .filter((value, index, self) => {
+                //Use a Set to keep track of unique city values
+
+                //Function to check if the city is unique
+                const isUniqueCity = (restaurant) => {
+                    const city = restaurant.location.city.toLowerCase();
+                    if (uniqueCities.has(city)) {
+                        return false; //Not unique, already encountered
+                    }
+                    uniqueCities.add(city); //Unique, add to the Set
+                    return true;
+                };
+                //Filter duplicates based on the location.city property
+                return isUniqueCity(value);
+            })
+            .sort((a, b) => {
+                const cityA = a.location.city.toLowerCase();
+                const cityB = b.location.city.toLowerCase();
+                if (cityA < cityB) return -1;
+                if (cityA > cityB) return 1;
+                return 0;
+            });
 
         return (
             <>
@@ -166,6 +184,7 @@ const MyRestaurants = ({isLoggedIn, token}) => {
                     <p>No Restaurants Added to the Randomizer Yet</p>
                     )
                 }
+                <h1>{user.first_name} {user.last_name}'s Favorite Restaurants</h1>
                 <div class="btn-group">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     Sort By City
@@ -179,8 +198,7 @@ const MyRestaurants = ({isLoggedIn, token}) => {
                                 )
                             })}
                         </ul>
-                </div>
-                <h1>{user.first_name} {user.last_name}'s Favorite Restaurants</h1>  
+                </div>  
                 <div className='container mt-4'>
                     <div className="row">
                     {sortedFavRestaurants.map((restaurant) => {
