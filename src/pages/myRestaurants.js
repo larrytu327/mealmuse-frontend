@@ -7,6 +7,7 @@ const MyRestaurants = ({isLoggedIn, token}) => {
     const [removedRestaurants, setRemovedRestaurants] = useState([]); 
     const [addedRestaurantToRandomizer, setAddedRestaurantToRandomizer] = useState([]);
     const [randomIndex, setRandomIndex] = useState([]);
+    const [expandedAccordion, setExpandedAccordion] = useState(null);
 
 
     useEffect(() => {
@@ -206,18 +207,31 @@ const MyRestaurants = ({isLoggedIn, token}) => {
                         <>  
                             {/* <div className='container mt-4'> */}
                                 {/* <div className='row'>   */}
-                                    <div className='col-md-4 mb-4' key={restaurant.id}>
-                                        <Link to={`/restaurants/${restaurant.id}`}>
-                                        <p className='h3'>{restaurant.name}</p>
-                                        <img src={restaurant.image_url} className="img-fluid fixed-size-image rounded shadow mx-auto d-block" alt={restaurant.name}></img>
-                                        </Link>
-                                        <p className='h4'>{restaurant.location.city}</p>
-                                        <p className='h4'>{restaurant.categories[0].title}</p>
-                                        <p className='h4'>{restaurant.rating} ⭐ </p>
-                                        <button type="button" class="btn btn-danger" onClick={() => { removeRestaurant(restaurant) }}>Remove from My Favorite Restaurants</button>
-                                        <p></p>
-                                        <button type="button" class="btn btn-primary" onClick={() => { addToFindRandom(restaurant) }}>Add to Randomizer</button>
+                                <div class="accordion" id={`accordion${restaurant.id}`}>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id={`heading${restaurant.id}`}>
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target={`#collapseOne${restaurant.id}`} aria-expanded={expandedAccordion === restaurant.id} onClick={() => setExpandedAccordion(expandedAccordion === restaurant.id ? null : restaurant.id)}>{restaurant.location.city}: {restaurant.name}
+                                        </button>
+                                        </h2>
+                                        <div id={`collapse${restaurant.id}`} class={`accordion-collapse collapse ${expandedAccordion === restaurant.id ? 'show' : ''}`} aria-labelledby={`heading${restaurant.id}`} data-bs-parent={`#accordion${restaurant.id}`}>
+                                        <div class="accordion-body">
+                                        <div className='col-md-4 mb-4' key={restaurant.id}>
+                                                        <Link to={`/restaurants/${restaurant.id}`}>
+                                                        <p className='h3'>{restaurant.name}</p>
+                                                        <img src={restaurant.image_url} className="img-fluid fixed-size-image rounded shadow mx-auto d-block" alt={restaurant.name}></img>
+                                                        </Link>
+                                                        <p className='h4'>{restaurant.location.city}</p>
+                                                        <p className='h4'>{restaurant.categories[0].title}</p>
+                                                        <p className='h4'>{restaurant.rating} ⭐ </p>
+                                                        <button type="button" class="btn btn-danger" onClick={() => { removeRestaurant(restaurant) }}>Remove from My Favorite Restaurants</button>
+                                                        <p></p>
+                                                        <button type="button" class="btn btn-primary" onClick={() => { addToFindRandom(restaurant) }}>Add to Randomizer</button>
+                                                    </div>
+                                        </div>
+                                        </div>
                                     </div>
+                                </div>
+                                    
                                 {/* </div> */}
                             {/* </div> */}
                         </>
