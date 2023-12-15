@@ -117,7 +117,7 @@ const Restaurants = ({isLoggedIn, token}) =>{
           <p></p>
           <div class="btn-group">
             <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-              Filter by Restaurant Category
+              Filter by Restaurant Category: {category}
             </button>
             <ul className="dropdown-menu dropdown-menu-end">
               {sortedCategories.map((category) => (

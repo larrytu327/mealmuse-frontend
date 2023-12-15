@@ -83,6 +83,11 @@ const MyRestaurants = ({isLoggedIn, token}) => {
 
     const randomizer = async (array) => {
         try {
+            if (array.length < 1) {
+                const nothingInArray = 0;
+                setRandomIndex(nothingInArray);
+                return;
+            }
             const random = Math.floor(Math.random()*(array.length))+1;
             console.log(random);
             setRandomIndex(random);
