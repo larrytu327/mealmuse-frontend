@@ -102,92 +102,142 @@ const MyRestaurants = ({isLoggedIn, token}) => {
             removeRestaurant(lastRemovedRestaurant);
             setRemovedRestaurants([]);
         }
-        const uniqueCities = new Set();
+        // const uniqueCities = new Set();
 
-        const sortedFavRestaurants = [...user.fav_restaurants]
-            .filter((value, index, self) => {
-                //Use a Set to keep track of unique city values
+        // const sortedFavRestaurants = [...user.fav_restaurants]
+        //     .filter((value, index, self) => {
+        //         //Use a Set to keep track of unique city values
 
-                //Function to check if the city is unique
-                const isUniqueCity = (restaurant) => {
-                    const city = restaurant.location.city.toLowerCase();
-                    if (uniqueCities.has(city)) {
-                        return false; //Not unique, already encountered
-                    }
-                    uniqueCities.add(city); //Unique, add to the Set
-                    return true;
-                };
-                //Filter duplicates based on the location.city property
-                return isUniqueCity(value);
-            })
-            .sort((a, b) => {
-                const cityA = a.location.city.toLowerCase();
-                const cityB = b.location.city.toLowerCase();
-                if (cityA < cityB) return -1;
-                if (cityA > cityB) return 1;
-                return 0;
-            });
+        //         //Function to check if the city is unique
+        //         const isUniqueCity = (restaurant) => {
+        //             const city = restaurant.location.city.toLowerCase();
+        //             if (uniqueCities.has(city)) {
+        //                 return false; //Not unique, already encountered
+        //             }
+        //             uniqueCities.add(city); //Unique, add to the Set
+        //             return true;
+        //         };
+        //         //Filter duplicates based on the location.city property
+        //         return isUniqueCity(value);
+        //     })
+        //     .sort((a, b) => {
+        //         const cityA = a.location.city.toLowerCase();
+        //         const cityB = b.location.city.toLowerCase();
+        //         if (cityA < cityB) return -1;
+        //         if (cityA > cityB) return 1;
+        //         return 0;
+        //     });
 
-        const cityAccordions = sortedFavRestaurants.map((restaurant) => {
-            const city = restaurant.location.city.toLowerCase();
+        const sortedFavRestaurants = user.fav_restaurants.sort((a, b) => {
+            const cityA = a.location.city.toLowerCase();
+            const cityB = b.location.city.toLowerCase();
+            if (cityA < cityB) return -1;
+            if (cityA > cityB) return 1;
+            return 0;
+        });
 
-            console.log(`Processing restaurant ${restaurant.name} in city ${city}`);
+        // const cityAccordions = user.fav_restaurants.map((restaurant) => {
+        //     const city = restaurant.location.city.toLowerCase();
 
-            //Check if city is already added to uniqueCities
-            if (!uniqueCities.has(city)) {
-                uniqueCities.add(city);
+        //     console.log(`Processing restaurant ${restaurant.name} in city ${city}`);
 
-                const cityRestaurants = sortedFavRestaurants.filter((r) => r.location.city.toLowerCase() === city);
+        //     //Check if city is already added to uniqueCities
+        //     if (!uniqueCities.has(city)) {
+        //         uniqueCities.add(city);
 
-                console.log(`City ${city} is unique. Adding to accordion.`);
+        //         const cityRestaurants = sortedFavRestaurants.filter((r) => r.location.city.toLowerCase() === city);
 
-                return (
-                    <div className='col-md-4 mb-4' key={restaurant.loading}>
-                        <div className="accordion" id={`accordion${restaurant.id}`}>
-                            <div className="accordion-item">
-                                <h2 className="accordion-header" id={`heading${restaurant.id}`}>
-                                    <button
-                                        className="accordion-button"
-                                        type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target={`#collapse${restaurant.id}`}
-                                        aria-expanded={expandedAccordion === restaurant.id}
-                                        onClick={() => setExpandedAccordion(expandedAccordion === restaurant.id ? null : restaurant.id)}
-                                        >{restaurant.location.city}: {restaurant.name}</button>
-                                </h2>
-                                <div
-                                    id={`collapse${restaurant.id}`}
-                                    className={`accordion-collapse collapse ${expandedAccordion === restaurant.id ? 'show' : ''}`}
-                                    aria-labelledby={`heading${restaurant.id}`}
-                                    data-bs-parent={`#accordion${restaurant.id}`}
-                                    >
-                                        <div className="accordion-body">
-                                            {cityRestaurants.map((cityRestaurant) => (
-                                                <div className='col-md-4 mb-4' key={cityRestaurant.id}>
-                                                    <Link to={`/restaurants/${cityRestaurant.id}`}>
-                                                        <p className='h3'>{cityRestaurant.name}</p>
-                                                        <img src={cityRestaurant.image_url} className="img-fluid fixed-size-image rounded shadow mx-auto d-block" alt={cityRestaurant.name}></img>
-                                                    </Link>
-                                                    <p className='h4'>{cityRestaurant.location.city}</p>
-                                                    <p className='h4'>{cityRestaurant.categories[0].title}</p>
-                                                    <p className='h4'>{cityRestaurant.rating} ⭐ </p>
-                                                    <button type="button" className="btn btn-danger" onClick={() => { removeRestaurant(cityRestaurant) }}>Remove from My Favorite Restaurants</button>
-                                                    <p></p>
-                                                    <button type="button" className="btn btn-primary" onClick={() => { addToFindRandom(cityRestaurant) }}>Add to Randomizer</button>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
+        //         console.log(`City ${city} is unique. Adding to accordion.`);
+
+        //         return (
+        //             <div className='col-md-4 mb-4' key={restaurant.loading}>
+        //                 <div className="accordion" id={`accordion${restaurant.id}`}>
+        //                     <div className="accordion-item">
+        //                         <h2 className="accordion-header" id={`heading${restaurant.id}`}>
+        //                             <button
+        //                                 className="accordion-button"
+        //                                 type="button"
+        //                                 data-bs-toggle="collapse"
+        //                                 data-bs-target={`#collapse${restaurant.id}`}
+        //                                 aria-expanded={expandedAccordion === restaurant.id}
+        //                                 onClick={() => setExpandedAccordion(expandedAccordion === restaurant.id ? null : restaurant.id)}
+        //                                 >{restaurant.location.city}: {restaurant.name}</button>
+        //                         </h2>
+        //                         <div
+        //                             id={`collapse${restaurant.id}`}
+        //                             className={`accordion-collapse collapse ${expandedAccordion === restaurant.id ? 'show' : ''}`}
+        //                             aria-labelledby={`heading${restaurant.id}`}
+        //                             data-bs-parent={`#accordion${restaurant.id}`}
+        //                             >
+        //                                 <div className="accordion-body">
+        //                                     {cityRestaurants.map((cityRestaurant) => (
+        //                                         <div className='col-md-4 mb-4' key={cityRestaurant.id}>
+        //                                             <Link to={`/restaurants/${cityRestaurant.id}`}>
+        //                                                 <p className='h3'>{cityRestaurant.name}</p>
+        //                                                 <img src={cityRestaurant.image_url} className="img-fluid fixed-size-image rounded shadow mx-auto d-block" alt={cityRestaurant.name}></img>
+        //                                             </Link>
+        //                                             <p className='h4'>{cityRestaurant.location.city}</p>
+        //                                             <p className='h4'>{cityRestaurant.categories[0].title}</p>
+        //                                             <p className='h4'>{cityRestaurant.rating} ⭐ </p>
+        //                                             <button type="button" className="btn btn-danger" onClick={() => { removeRestaurant(cityRestaurant) }}>Remove from My Favorite Restaurants</button>
+        //                                             <p></p>
+        //                                             <button type="button" className="btn btn-primary" onClick={() => { addToFindRandom(cityRestaurant) }}>Add to Randomizer</button>
+        //                                         </div>
+        //                                     ))}
+        //                                 </div>
+        //                             </div>
+        //                     </div>
+        //                 </div>
+        //             </div>
+        //         )
+        //     }
+        //     console.log(`City ${city} is not unique. Skipping.`);
+        //     return null;
+        // });
+
+        // console.log("cityAccordions:", cityAccordions);
+
+        const cityAccordions = sortedFavRestaurants.map((restaurant) => (
+            <div className='col-md-4 mb-4' key={restaurant.loading}>
+                <div className="accordion" id={`accordion${restaurant.id}`}>
+                    <div className="accordion-item">
+                        <h2 className="accordion-header" id={`heading${restaurant.id}`}>
+                            <button
+                                className="accordion-button"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target={`#collapse${restaurant.id}`}
+                                aria-expanded={expandedAccordion === restaurant.id}
+                                onClick={() => setExpandedAccordion(expandedAccordion === restaurant.id ? null : restaurant.id)}
+                            >
+                                {restaurant.location.city}: {restaurant.name}
+                            </button>
+                        </h2>
+                        <div
+                            id={`collapse${restaurant.id}`}
+                            className={`accordion-collapse collapse ${expandedAccordion === restaurant.id ? 'show' : ''}`}
+                            aria-labelledby={`heading${restaurant.id}`}
+                            data-bs-parent={`#accordion${restaurant.id}`}
+                        >
+                            <div className="accordion-body">
+                                <div className='col-md-4 mb-4' key={restaurant.id}>
+                                    <Link to={`/restaurants/${restaurant.id}`}>
+                                        <p className='h3'>{restaurant.name}</p>
+                                        <img src={restaurant.image_url} className="img-fluid fixed-size-image rounded shadow mx-auto d-block" alt={restaurant.name}></img>
+                                    </Link>
+                                    <p className='h4'>{restaurant.location.city}</p>
+                                    <p className='h4'>{restaurant.categories[0].title}</p>
+                                    <p className='h4'>{restaurant.rating} ⭐ </p>
+                                    <button type="button" className="btn btn-danger" onClick={() => { removeRestaurant(restaurant) }}>Remove from My Favorite Restaurants</button>
+                                    <p></p>
+                                    <button type="button" className="btn btn-primary" onClick={() => { addToFindRandom(restaurant) }}>Add to Randomizer</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                )
-            }
-            console.log(`City ${city} is not unique. Skipping.`);
-            return null;
-        });
-
-        console.log("cityAccordions:", cityAccordions);
+                </div>
+            </div>
+        ));
 
         return (
             <>
