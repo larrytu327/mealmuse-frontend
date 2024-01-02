@@ -198,7 +198,7 @@ const MyRestaurants = ({isLoggedIn, token}) => {
         // console.log("cityAccordions:", cityAccordions);
 
         const cityAccordions = sortedFavRestaurants.map((restaurant) => (
-            <div className='col-md-4 mb-4' key={restaurant.loading}>
+            // <div className='col-md-4 mb-4' key={restaurant.loading}>
                 <div className="accordion" id={`accordion${restaurant.id}`}>
                     <div className="accordion-item">
                         <h2 className="accordion-header" id={`heading${restaurant.id}`}>
@@ -236,7 +236,7 @@ const MyRestaurants = ({isLoggedIn, token}) => {
                         </div>
                     </div>
                 </div>
-            </div>
+            // </div>
         ));
 
         return (
